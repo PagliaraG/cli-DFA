@@ -17,3 +17,13 @@ typedef struct{
     state final_states[50];
     transition_t transitions[100];
 } dfa_t;
+
+void addState(dfa_t dfa,state newState){
+    int length = sizeof(dfa.states) / sizeof(dfa.states[0]);
+    for(int i=0; i < length; i++){
+        if (strcmp(dfa.states[i],newState)){
+            break;
+        }
+    }
+    
+}
