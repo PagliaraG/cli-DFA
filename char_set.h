@@ -16,9 +16,9 @@ set_t resizeSet(set_t oldSet);
 
 bool contains(set_t set, char* el);
 
-set_t addElem(set_t set, elem el);
+void addElem(set_t* set, elem el);
 
-set_t removeElem(set_t set, elem el);
+void removeElem(set_t* set, elem el);
 
 void printSet(set_t set);
 
