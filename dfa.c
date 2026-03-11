@@ -1,7 +1,9 @@
-#include "stdio.h"
+#include <stdio.h>
+#include "char_set.h"
+#include <string.h>
 
 typedef char state[5];
-typedef char symbol[1];
+typedef char symbol;
 
 typedef struct {
     state init;
@@ -11,19 +13,25 @@ typedef struct {
 } transition_t;
 
 typedef struct{
-    symbol alphabet[50];
-    state states[100];
+    set_t alphabet;
+    set_t states;
     state initial_state;
-    state final_states[50];
+    set_t final_states;
     transition_t transitions[100];
 } dfa_t;
 
 void addState(dfa_t dfa,state newState){
-    int length = sizeof(dfa.states) / sizeof(dfa.states[0]);
+    int length = sizeof(dfa.states) / sizeof(dfa.states);
     for(int i=0; i < length; i++){
-        if (strcmp(dfa.states[i],newState)){
-            break;
-        }
+        
     }
     
+}
+
+int main(){
+    set_t alph = createSet();
+    addElem(alph,"a");
+    addElem(alph,"b");
+    printSet(alph);
+    return 0;
 }

@@ -1,18 +1,27 @@
 #include <stdbool.h>
 
-typedef char elem;
-typedef elem set;
+typedef char* elem;
+typedef unsigned int pointer;
 
-set *createSet();
+typedef struct{
+    char el[2][20];
+    pointer ptr;
+} set_t;
 
-bool isEmpty(set* set);
+set_t createSet();
 
-set* resizeSet(set* oldSet);
+bool isEmpty(set_t set);
 
-bool contains(set *set, char* el);
+set_t resizeSet(set_t oldSet);
 
-set* addElem(set* set, elem el);
+bool contains(set_t set, char* el);
 
-set* removeElem(set* set, elem el);
+set_t addElem(set_t set, elem el);
 
-void printSet(set* set);
+set_t removeElem(set_t set, elem el);
+
+void printSet(set_t set);
+
+char* getFirst(set_t set);
+
+char* getNext(set_t set);
