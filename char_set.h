@@ -10,6 +10,8 @@ typedef struct{
 
 set_t createSet();
 
+int getLength(set_t* set);
+
 bool isEmpty(set_t set);
 
 set_t resizeSet(set_t oldSet);

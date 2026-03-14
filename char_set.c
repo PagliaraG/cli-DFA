@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #define INITIAL_SIZE 2
+#define STRING_SIZE 10
 
 typedef char* elem;
 typedef unsigned int pointer;
@@ -16,18 +17,21 @@ typedef struct{
 
 set_t createSet(){
     set_t set;
-    set.el = malloc(sizeof(char*)*INITIAL_SIZE);
-    for(int i = 0; i < 2;i++){
-        strcpy(set.el[i],NULL);
+    set.el = calloc(INITIAL_SIZE,sizeof(char*));
+    for(int i = 0; i < INITIAL_SIZE;i++){
+        set.el[i] = calloc(STRING_SIZE,sizeof(char));
     }
     set.size = INITIAL_SIZE;
     set.ptr = 0;
     return set;
 }
 
+int getLength(set_t set){
+    return set.size;
+}
+
 bool isEmpty(set_t set){
-    int length = sizeof(set) / sizeof(set.el[0]);
-    for(int i = 0; i < length ; i++){
+    for(int i = 0; i < getLength(set) ; i++){
         if(!strcmp(set.el[i],NULL) == 0){
             return true;
         }
@@ -36,7 +40,7 @@ bool isEmpty(set_t set){
 }
 
 void resizeSet(set_t* oldSet){
-    unsigned int length = sizeof(oldSet->el) / sizeof(oldSet->el[0]);
+    int length = getLength(*oldSet);
     unsigned int trueLength = 0;
     for(int i = 0; i < length ; i++){
         if(strcmp(oldSet->el[i],NULL) == 0){
@@ -44,17 +48,16 @@ void resizeSet(set_t* oldSet){
         }
     }
     if(trueLength < length/2){
-        oldSet->size*=2;
+        oldSet->size/=2;
         oldSet = realloc(oldSet,sizeof(char*)*oldSet->size);
     } else if(trueLength == length){
-        oldSet->size/=2;
+        oldSet->size*=2;
         oldSet = realloc(oldSet,sizeof(char)*oldSet->size);
     }
  }
 
 bool contains(set_t set, char* el){
-    int length = sizeof(set.el) / sizeof(set.el[0]);
-    for(int i = 0; i < length ; i++){
+    for(int i = 0; i < getLength(set) ; i++){
         if(strcmp(set.el[i],el) == 0){
             return true;         
         } 
@@ -64,10 +67,10 @@ bool contains(set_t set, char* el){
 
 void addElem(set_t* set, elem el){
     if(!contains(*set,el)){
-        resizeSet(set);
-        int length = sizeof(set->el) / sizeof(set->el[0]);
-        for( int i = 0; i < length; i++){
+        //resizeSet(set);
+        for( int i = 0; i < getLength(*set); i++){
             if(strcmp(set->el[i],NULL) == 0){
+                set->el[i] = calloc(STRING_SIZE,sizeof(char));
                 strcpy(set->el[i],el);
                 break;
             }
@@ -77,36 +80,36 @@ void addElem(set_t* set, elem el){
 
 void removeElem(set_t* set, elem el){
     if(contains(*set,el)){
-        int length = sizeof(set->el) / sizeof(set->el[0]);
-        for( int i = 0; i < length; i++){
+        for( int i = 0; i < getLength(*set); i++){
             if(strcmp(set->el[i],el) == 0){
-                strcpy(set->el[i],NULL);
+                free(set->el[i]);
                 break;
             }
         }
-        resizeSet(set);
+        //resizeSet(set);
     }
 }
 
 void printSet(set_t set){
-    int length = sizeof(set.el) / sizeof(set.el[0]);
+    int length = getLength(set);
     printf("[ ");
     bool last = false;
     for( int i = 0; i < length; i++){
-        printf("%s%s",(i!=0) ? ", " : "" ,set.el[i]);   
+        printf("%s%s",(i != length-1) ? ", " : "" ,set.el[i]);   
     }
     printf(" ]");
 }
-
+/*
 char* getFirst(set_t* set){
     set->ptr = 0;
     return set->el[0];
 }
 
 char* getNext(set_t* set){
-    if(strcmp(set->el[set->ptr+1],"\0") == 0){
+    if(strcmp(set->el[set->ptr+1],NULL) == 0){
         return set->el[set->ptr];
     }else{
         return set->el[++set->ptr];
     }   
 }
+    */

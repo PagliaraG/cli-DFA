@@ -30,12 +30,10 @@ void addState(dfa_t dfa,state newState){
 }
 
 int main(){
+    
     set_t alph = createSet();
     addElem(&alph,"a");
     addElem(&alph,"b");
-    addElem(&alph,"c");
-    addElem(&alph,"d");
-    printSet(alph);
-    free(&alph.el);
+    printSet(alph); 
     return 0;
 }
