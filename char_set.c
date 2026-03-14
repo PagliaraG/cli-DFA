@@ -77,13 +77,21 @@ void addElem(set_t* set, elem el){
 
 void removeElem(set_t* set, elem el){
     if(contains(set,el)){
-        for( int i = 0; i < getLength(set); i++){
+        int length = getLength((set));
+        int index = 0;
+        for( int i = 0; i < length; i++){
             if(strcmp(set->el[i],el) == 0){
                 free(set->el[i]);
+                index = i;
                 break;
             }
         }
-        //resizeSet(set);
+        if (index < length-1) {
+            for (int i=index; i<length-1; i++) {
+                strcpy(set->el[i],set->el[i+1]);
+            }
+        }
+        set->size--;
     }
 }
 
