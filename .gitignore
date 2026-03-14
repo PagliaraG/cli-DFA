@@ -75,6 +75,7 @@ CMakeUserPresets.json
 *-prefix/
 
 ### VisualStudioCode ###
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -93,5 +94,8 @@ CMakeUserPresets.json
 .history
 .ionide
 
-# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,c,cmake
+### MakeFile
+makefile
 
+### Compiled C files
+dfa
