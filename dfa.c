@@ -31,8 +31,14 @@ int main(){
     
     set_t alph = createSet();
     addElem(&alph,"a");
-    addElem(&alph,"b");
-    removeElem(&alph,"a");
     printSet(alph);
+    addElem(&alph,"b");
+    printSet(alph);
+    /*
+    addElem(&alph,"c");
+    printSet(alph);
+    addElem(&alph,"d");
+    printSet(alph);
+    */
     return 0;
 }

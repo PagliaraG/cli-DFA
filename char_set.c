@@ -29,6 +29,17 @@ int getLength(set_t* set){
     return set->size;
 }
 
+int getLastIndex(set_t* set) {
+    int i = 0;
+    while ( i < getLength(set)) {
+        if (strcmp(set->el[i],"") == 0) {
+            break;
+        }
+        i++;
+    }
+    return i;
+}
+
 bool isEmpty(set_t* set){
     for(int i = 0; i < getLength(set) ; i++){
         if(strcmp(set->el[i],"") != 0){
@@ -38,20 +49,27 @@ bool isEmpty(set_t* set){
     return false;
 }
 
-void resizeSet(set_t* oldSet){
-    int length = getLength(oldSet);
-    unsigned int trueLength = 0;
-    for(int i = 0; i < length ; i++){
-        if(strcmp(oldSet->el[i],"") == 0){
-            trueLength = i;
+void resizeSet(set_t* set){
+    int length = getLength(set);
+    int lastIndex = getLastIndex(set);
+    printf("Last index: %d, Length; %d \n",lastIndex,length);
+    if(lastIndex == length){
+        printf("Maximize \n");
+        copyEl(set);
+        set->el = calloc(set->size*2,sizeof(char*));
+        for (int i = 0; i <= lastIndex; i++) {
+            strcpy(set->el[i],tmp.el[i]);
         }
-    }
-    if(trueLength < length/2){
-        oldSet->size/=2;
-        oldSet = realloc(oldSet,sizeof(char*)*oldSet->size);
-    } else if(trueLength == length){
-        oldSet->size*=2;
-        oldSet = realloc(oldSet,sizeof(char)*oldSet->size);
+        for (int i = lastIndex+1 ; i < length*2 ; i++) {
+            set->el[i] = calloc(STRING_SIZE,sizeof(char));
+        }
+        set->size*=2;
+    }else if(lastIndex < length/2){
+        printf("Minimize \n");
+        for (int i = length/2 ; i < length ; i++) {
+            free(set->el[i]);
+        }
+        set->size/=2;
     }
  }
 
@@ -66,6 +84,7 @@ bool contains(set_t* set, char* el){
 
 void addElem(set_t* set, elem el){
     if(!contains(set,el)){
+        resizeSet(set);
         for(int i = 0; i < getLength(set); i++){
             if(strcmp(set->el[i],"") == 0){
                 strcpy(set->el[i],el);
@@ -92,6 +111,7 @@ void removeElem(set_t* set, elem el){
             }
         }
         set->size--;
+        resizeSet(set);
     }
 }
 
@@ -103,19 +123,3 @@ void printSet(set_t set){
     }
     printf(" ]\n");
 }
-
-
-/*
-char* getFirst(set_t* set){
-    set->ptr = 0;
-    return set->el[0];
-}
-
-char* getNext(set_t* set){
-    if(strcmp(set->el[set->ptr+1],NULL) == 0){
-        return set->el[set->ptr];
-    }else{
-        return set->el[++set->ptr];
-    }   
-}
-    */
