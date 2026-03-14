@@ -4,8 +4,9 @@ typedef char* elem;
 typedef unsigned int pointer;
 
 typedef struct{
-    char el[2][20];
+    char** el;
     pointer ptr;
+    unsigned int size;
 } set_t;
 
 set_t createSet();

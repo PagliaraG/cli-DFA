@@ -1,7 +1,5 @@
-#include <stdio.h>
 #include "char_set.h"
-#include <string.h>
-#include <stdlib.h>
+#include <stdio.h>
 
 typedef char state[5];
 typedef char symbol;
@@ -34,6 +32,7 @@ int main(){
     set_t alph = createSet();
     addElem(&alph,"a");
     addElem(&alph,"b");
-    printSet(alph); 
+    removeElem(&alph,"a");
+    printSet(alph);
     return 0;
 }

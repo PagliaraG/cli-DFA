@@ -1,4 +1,3 @@
-#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -26,13 +25,13 @@ set_t createSet(){
     return set;
 }
 
-int getLength(set_t set){
-    return set.size;
+int getLength(set_t* set){
+    return set->size;
 }
 
-bool isEmpty(set_t set){
+bool isEmpty(set_t* set){
     for(int i = 0; i < getLength(set) ; i++){
-        if(!strcmp(set.el[i],NULL) == 0){
+        if(strcmp(set->el[i],"") != 0){
             return true;
         }
     }
@@ -40,10 +39,10 @@ bool isEmpty(set_t set){
 }
 
 void resizeSet(set_t* oldSet){
-    int length = getLength(*oldSet);
+    int length = getLength(oldSet);
     unsigned int trueLength = 0;
     for(int i = 0; i < length ; i++){
-        if(strcmp(oldSet->el[i],NULL) == 0){
+        if(strcmp(oldSet->el[i],"") == 0){
             trueLength = i;
         }
     }
@@ -56,9 +55,9 @@ void resizeSet(set_t* oldSet){
     }
  }
 
-bool contains(set_t set, char* el){
+bool contains(set_t* set, char* el){
     for(int i = 0; i < getLength(set) ; i++){
-        if(strcmp(set.el[i],el) == 0){
+        if(strcmp(set->el[i],el) == 0){
             return true;         
         } 
     }
@@ -66,11 +65,9 @@ bool contains(set_t set, char* el){
 }
 
 void addElem(set_t* set, elem el){
-    if(!contains(*set,el)){
-        //resizeSet(set);
-        for( int i = 0; i < getLength(*set); i++){
-            if(strcmp(set->el[i],NULL) == 0){
-                set->el[i] = calloc(STRING_SIZE,sizeof(char));
+    if(!contains(set,el)){
+        for(int i = 0; i < getLength(set); i++){
+            if(strcmp(set->el[i],"") == 0){
                 strcpy(set->el[i],el);
                 break;
             }
@@ -79,8 +76,8 @@ void addElem(set_t* set, elem el){
 }
 
 void removeElem(set_t* set, elem el){
-    if(contains(*set,el)){
-        for( int i = 0; i < getLength(*set); i++){
+    if(contains(set,el)){
+        for( int i = 0; i < getLength(set); i++){
             if(strcmp(set->el[i],el) == 0){
                 free(set->el[i]);
                 break;
@@ -91,14 +88,15 @@ void removeElem(set_t* set, elem el){
 }
 
 void printSet(set_t set){
-    int length = getLength(set);
+    int length = getLength(&set);
     printf("[ ");
-    bool last = false;
     for( int i = 0; i < length; i++){
-        printf("%s%s",(i != length-1) ? ", " : "" ,set.el[i]);   
+        printf("%s%s",set.el[i],(i < length-1) ? ", " : "");
     }
-    printf(" ]");
+    printf(" ]\n");
 }
+
+
 /*
 char* getFirst(set_t* set){
     set->ptr = 0;
