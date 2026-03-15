@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #define INITIAL_SIZE 2
-#define STRING_SIZE 10
+#define STRING_SIZE 255
 
 typedef char* elem;
 typedef unsigned int pointer;
@@ -31,7 +31,7 @@ int getLength(set_t* set){
 
 int getLastIndex(set_t* set) {
     int i = 0;
-    while ( i < getLength(set)) {
+    while ( i < getLength(set) - 1) {
         if (strcmp(set->el[i],"") == 0) {
             break;
         }
@@ -49,23 +49,33 @@ bool isEmpty(set_t* set){
     return false;
 }
 
+char** copyElements(set_t* set, int lastIndex) {
+    char** output = calloc(lastIndex+1,sizeof(char*));
+    for (int i = 0; i <= lastIndex; i++) {
+        output[i] = calloc(STRING_SIZE,sizeof(char));
+        strcpy(output[i],set->el[i]);
+    }
+    return  output;
+}
+
+
 void resizeSet(set_t* set){
     int length = getLength(set);
     int lastIndex = getLastIndex(set);
-    printf("Last index: %d, Length; %d \n",lastIndex,length);
-    if(lastIndex == length){
-        printf("Maximize \n");
-        copyEl(set);
+    if(lastIndex == length - 1 ){
+        char** tmp = copyElements(set,lastIndex);
+        free(set->el);
         set->el = calloc(set->size*2,sizeof(char*));
         for (int i = 0; i <= lastIndex; i++) {
-            strcpy(set->el[i],tmp.el[i]);
+            set->el[i] = calloc(STRING_SIZE,sizeof(char));
+            strcpy(set->el[i],tmp[i]);
         }
+        free(tmp);
         for (int i = lastIndex+1 ; i < length*2 ; i++) {
             set->el[i] = calloc(STRING_SIZE,sizeof(char));
         }
         set->size*=2;
-    }else if(lastIndex < length/2){
-        printf("Minimize \n");
+    }else if(lastIndex < length/2 && length > 2){
         for (int i = length/2 ; i < length ; i++) {
             free(set->el[i]);
         }
@@ -116,10 +126,11 @@ void removeElem(set_t* set, elem el){
 }
 
 void printSet(set_t set){
-    int length = getLength(&set);
+    int lastIndex = getLastIndex(&set);
     printf("[ ");
-    for( int i = 0; i < length; i++){
-        printf("%s%s",set.el[i],(i < length-1) ? ", " : "");
+    for( int i = 0; i < lastIndex; i++){
+        if (strcmp(set.el[i],"") == 0) break;
+        printf("%s%s",set.el[i],(i < lastIndex-1) ? ", " : "");
     }
     printf(" ]\n");
 }

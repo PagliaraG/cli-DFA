@@ -97,5 +97,8 @@ CMakeUserPresets.json
 ### MakeFile
 makefile
 
+### JetBrains IDE
+.idea
+
 ### Compiled C files
 dfa

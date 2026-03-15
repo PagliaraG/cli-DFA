@@ -34,11 +34,13 @@ int main(){
     printSet(alph);
     addElem(&alph,"b");
     printSet(alph);
-    /*
     addElem(&alph,"c");
     printSet(alph);
     addElem(&alph,"d");
     printSet(alph);
-    */
+    removeElem(&alph,"a");
+    printSet(alph);
+    removeElem(&alph,"c");
+    printSet(alph);
     return 0;
 }
