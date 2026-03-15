@@ -1,5 +1,6 @@
 #include "char_set.h"
 #include <stdio.h>
+#include <string.h>
 
 #define STATE_SIZE 255
 #define SYMBOL_SIZE 255
@@ -19,8 +20,8 @@ typedef struct {
 typedef struct{
     set_t alphabet;
     set_t states;
-    state initial_state;
-    set_t final_states;
+    state initialState;
+    set_t finalStates;
     transition_t transitions[TRANSITION_SIZE];
 } dfa_t;
 
@@ -28,8 +29,8 @@ dfa_t createDFA() {
     dfa_t dfa = {
         .alphabet = createSet(),
         .states = createSet(),
-        .final_states = createSet(),
-        .initial_state = "",
+        .finalStates = createSet(),
+        .initialState = "",
     };
     return dfa;
 }
@@ -55,6 +56,22 @@ void addSymbol(dfa_t* dfa,char* symbol){
 void removeSymbol(dfa_t* dfa,char* symbol){
     if (contains(dfa->alphabet,symbol)){
         removeElem(&dfa->alphabet,symbol);
+    }
+}
+
+void setInitialState(dfa_t* dfa,char* initState) {
+    strcpy(dfa->initialState,initState);
+}
+
+void addFinalState(dfa_t* dfa,state newState){
+    if (!contains(dfa->finalStates,newState)){
+        addElem(&dfa->finalStates,newState);
+    }
+}
+
+void removeFinalState(dfa_t* dfa,state newState){
+    if (contains(dfa->finalStates,newState)){
+        removeElem(&dfa->finalStates,newState);
     }
 }
 
