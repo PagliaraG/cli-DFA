@@ -1,8 +1,13 @@
 #include "char_set.h"
 #include <stdio.h>
 
-typedef char state[5];
-typedef char symbol;
+#define STATE_SIZE 255
+#define SYMBOL_SIZE 255
+#define TRANSITION_SIZE 255
+
+typedef char state[STATE_SIZE];
+typedef char symbol[SYMBOL_SIZE];
+
 
 typedef struct {
     state init;
@@ -16,31 +21,36 @@ typedef struct{
     set_t states;
     state initial_state;
     set_t final_states;
-    transition_t transitions[100];
+    transition_t transitions[TRANSITION_SIZE];
 } dfa_t;
 
-void addState(dfa_t dfa,state newState){
-    int length = sizeof(dfa.states) / sizeof(dfa.states);
-    for(int i=0; i < length; i++){
-        
+dfa_t createDFA() {
+    dfa_t dfa = {
+        .alphabet = createSet(),
+        .states = createSet(),
+        .final_states = createSet(),
+        .initial_state = "",
+    };
+    return dfa;
+}
+
+void addState(dfa_t* dfa,state newState){
+    if (!contains(dfa->states,newState)){
+        addElem(&dfa->states,newState);
     }
-    
+}
+
+void addSymbol(dfa_t* dfa,char* symbol){
+    if (!contains(dfa->alphabet,symbol)){
+        addElem(&dfa->alphabet,symbol);
+    }
 }
 
 int main(){
     
-    set_t alph = createSet();
-    addElem(&alph,"a");
-    printSet(alph);
-    addElem(&alph,"b");
-    printSet(alph);
-    addElem(&alph,"c");
-    printSet(alph);
-    addElem(&alph,"d");
-    printSet(alph);
-    removeElem(&alph,"a");
-    printSet(alph);
-    removeElem(&alph,"c");
-    printSet(alph);
+    dfa_t bStaraStar = createDFA();
+    addState(&bStaraStar,"q0");
+    addSymbol(&bStaraStar,"a");
+    addSymbol(&bStaraStar,"b");
     return 0;
 }
