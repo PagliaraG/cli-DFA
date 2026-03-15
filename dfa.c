@@ -40,9 +40,21 @@ void addState(dfa_t* dfa,state newState){
     }
 }
 
+void removeState(dfa_t* dfa,state newState){
+    if (contains(dfa->states,newState)){
+        removeElem(&dfa->states,newState);
+    }
+}
+
 void addSymbol(dfa_t* dfa,char* symbol){
     if (!contains(dfa->alphabet,symbol)){
         addElem(&dfa->alphabet,symbol);
+    }
+}
+
+void removeSymbol(dfa_t* dfa,char* symbol){
+    if (contains(dfa->alphabet,symbol)){
+        removeElem(&dfa->alphabet,symbol);
     }
 }
 
