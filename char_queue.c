@@ -1,3 +1,5 @@
+#include "char_queue.h"
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -6,12 +8,6 @@
 
 #define INITIAL_SIZE 4
 #define STRING_SIZE 255
-
-typedef struct {
-    char** elem;
-    int lastIndex;
-    int size;
-} char_queue_t;
 
 char_queue_t createQueue() {
     char_queue_t queue = {
@@ -35,6 +31,7 @@ bool isQueueEmpty(char_queue_t* queue) {
 }
 
 void addInQueue(char_queue_t* queue,char* el) {
+    resizeQueue(queue);
     strcpy(queue->elem[queue->lastIndex],el);
     queue->lastIndex++;
 }
@@ -47,6 +44,7 @@ char* poll(char_queue_t* queue) {
     }
     free(queue->elem[queue->lastIndex]);
     queue->lastIndex--;
+    resizeQueue(queue);
     return output;
 }
 
@@ -55,32 +53,41 @@ char* peek(char_queue_t* queue) {
 }
 
 char** copyQueueElements(char_queue_t queue) {
-    return queue.elem;
+    char** cpy = calloc(queue.lastIndex,sizeof(char*));
+    for (int i = 0; i< queue.lastIndex; i++) {
+        cpy[i] = calloc(STRING_SIZE,sizeof(char));
+        strcpy(cpy[i],queue.elem[i]);
+    }
+    return cpy;
 }
 
 void resizeQueue(char_queue_t* queue) {
-    if (queue->lastIndex == queue->size -1) {
+    if (queue->lastIndex == queue->size - 1) {
         char** tmp = copyQueueElements(*queue);
         queue->size*=2;
+        free(queue->elem);
         queue->elem = calloc(queue->size,sizeof(char*));
-        for (int i = 0; i <= queue->lastIndex; i++) {
+        for (int i = 0; i < queue->lastIndex; i++) {
             queue->elem[i] = calloc(STRING_SIZE,sizeof(char));
             strcpy(queue->elem[i],tmp[i]);
         }
-        for ( int i = queue->lastIndex+1; i < queue->size; i++) {
+        for ( int i = queue->lastIndex; i < queue->size; i++) {
             queue->elem[i] = calloc(STRING_SIZE,sizeof(char));
         }
+        free(tmp);
     } else if (queue->lastIndex < queue->size/2) {
         char** tmp = copyQueueElements(*queue);
         queue->size/=2;
+        free(queue->elem);
         queue->elem = calloc(queue->size,sizeof(char*));
-        for (int i = 0; i <= queue->lastIndex; i++) {
+        for (int i = 0; i < queue->lastIndex; i++) {
             queue->elem[i] = calloc(STRING_SIZE,sizeof(char));
             strcpy(queue->elem[i],tmp[i]);
         }
-        for ( int i = queue->lastIndex+1; i < queue->size; i++) {
+        for ( int i = queue->lastIndex ; i < queue->size; i++) {
             queue->elem[i] = calloc(STRING_SIZE,sizeof(char));
         }
+        free(tmp);
     }
 }
 
