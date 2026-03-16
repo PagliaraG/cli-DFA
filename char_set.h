@@ -1,4 +1,5 @@
-#include <stdbool.h>
+#ifndef CHAR_SET_H
+#define CHAR_SET_H
 
 typedef char* elem;
 typedef unsigned int pointer;
@@ -28,3 +29,5 @@ void printSet(set_t set);
 char* getFirst(set_t set);
 
 char* getNext(set_t set);
+
+#endif //CHAR_SET_H

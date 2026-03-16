@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "char_set.h"
+
 #define INITIAL_SIZE 4
 #define STRING_SIZE 255
 
@@ -23,9 +25,22 @@ char_queue_t createQueue() {
     return queue;
 }
 
-void addElem(char_queue_t* queue,char* el) {
+bool isQueueEmpty(char_queue_t* queue) {
+    for (int i = 0; i < queue->size; i++) {
+        if (strcmp(queue->elem[i],"") != 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void addInQueue(char_queue_t* queue,char* el) {
+    bool firstElem = false;
+    if (isQueueEmpty(queue))
+        firstElem = true;
     strcpy(queue->elem[queue->lastIndex],el);
-    queue->lastIndex++;
+    if (!firstElem)
+        queue->lastIndex++;
 }
 
 char* poll(char_queue_t* queue) {
@@ -41,13 +56,13 @@ char* peek(char_queue_t* queue) {
     return queue->elem[0];
 }
 
-char** copyElements(char_queue_t queue) {
+char** copyQueueElements(char_queue_t queue) {
     return queue.elem;
 }
 
 void resizeQueue(char_queue_t* queue) {
     if (queue->lastIndex == queue->size -1) {
-        char** tmp = copyElements(*queue);
+        char** tmp = copyQueueElements(*queue);
         queue->size*=2;
         queue->elem = calloc(queue->size,sizeof(char*));
         for (int i = 0; i <= queue->lastIndex; i++) {
@@ -58,7 +73,7 @@ void resizeQueue(char_queue_t* queue) {
             queue->elem[i] = calloc(STRING_SIZE,sizeof(char));
         }
     } else if (queue->lastIndex < queue->size/2) {
-        char** tmp = copyElements(*queue);
+        char** tmp = copyQueueElements(*queue);
         queue->size/=2;
         queue->elem = calloc(queue->size,sizeof(char*));
         for (int i = 0; i <= queue->lastIndex; i++) {
