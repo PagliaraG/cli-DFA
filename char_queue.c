@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #define INITIAL_SIZE 4
 #define STRING_SIZE 255
@@ -27,6 +28,19 @@ void addElem(char_queue_t* queue,char* el) {
     queue->lastIndex++;
 }
 
+char* poll(char_queue_t* queue) {
+    char* output = queue->elem[0];
+    for (int i = 0; i < queue->lastIndex; i++) {
+        strcpy(queue->elem[i],queue->elem[i+1]);
+    }
+    queue->size-=1;
+    return output;
+}
+
+char* peek(char_queue_t* queue) {
+    return queue->elem[0];
+}
+
 char** copyElements(char_queue_t queue) {
     return queue.elem;
 }
@@ -44,6 +58,14 @@ void resizeQueue(char_queue_t* queue) {
             queue->elem[i] = calloc(STRING_SIZE,sizeof(char));
         }
     }
+}
+
+void printQueue(char_queue_t queue) {
+    printf("[ ");
+    for (int i = 0; i <= queue.lastIndex; i++) {
+        printf("%s%s",queue.elem[i],(i < queue.lastIndex) ? ", " : " ");
+    }
+    printf("] \n");
 }
 
 
