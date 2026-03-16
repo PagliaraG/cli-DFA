@@ -1,6 +1,7 @@
-#include "char_set.h"
 #include <stdio.h>
 #include <string.h>
+#include "char_set.h"
+#include "char_queue.h"
 
 #define STATE_SIZE 255
 #define SYMBOL_SIZE 255
@@ -75,11 +76,6 @@ void removeFinalState(dfa_t* dfa,state newState){
     }
 }
 
-int main(){
-    
-    dfa_t bStaraStar = createDFA();
-    addState(&bStaraStar,"q0");
-    addSymbol(&bStaraStar,"a");
-    addSymbol(&bStaraStar,"b");
+int main(void){
     return 0;
 }

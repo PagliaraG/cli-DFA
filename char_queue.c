@@ -54,7 +54,7 @@ char* peek(char_queue_t* queue) {
 
 char** copyQueueElements(char_queue_t queue) {
     char** cpy = calloc(queue.lastIndex,sizeof(char*));
-    for (int i = 0; i< queue.lastIndex; i++) {
+    for (int i = 0; i < queue.lastIndex; i++) {
         cpy[i] = calloc(STRING_SIZE,sizeof(char));
         strcpy(cpy[i],queue.elem[i]);
     }
@@ -62,22 +62,16 @@ char** copyQueueElements(char_queue_t queue) {
 }
 
 void resizeQueue(char_queue_t* queue) {
-    if (queue->lastIndex == queue->size - 1) {
-        char** tmp = copyQueueElements(*queue);
+    bool resizeFlag = false;
+    if (queue->lastIndex == queue->size) {
+        resizeFlag = true;
         queue->size*=2;
-        free(queue->elem);
-        queue->elem = calloc(queue->size,sizeof(char*));
-        for (int i = 0; i < queue->lastIndex; i++) {
-            queue->elem[i] = calloc(STRING_SIZE,sizeof(char));
-            strcpy(queue->elem[i],tmp[i]);
-        }
-        for ( int i = queue->lastIndex; i < queue->size; i++) {
-            queue->elem[i] = calloc(STRING_SIZE,sizeof(char));
-        }
-        free(tmp);
     } else if (queue->lastIndex < queue->size/2) {
-        char** tmp = copyQueueElements(*queue);
+        resizeFlag = true;
         queue->size/=2;
+    }
+    if (resizeFlag) {
+        char** tmp = copyQueueElements(*queue);
         free(queue->elem);
         queue->elem = calloc(queue->size,sizeof(char*));
         for (int i = 0; i < queue->lastIndex; i++) {
