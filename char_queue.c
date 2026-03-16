@@ -50,11 +50,22 @@ void resizeQueue(char_queue_t* queue) {
         char** tmp = copyElements(*queue);
         queue->size*=2;
         queue->elem = calloc(queue->size,sizeof(char*));
-        for (int i = 0; i < queue->lastIndex; i++) {
+        for (int i = 0; i <= queue->lastIndex; i++) {
             queue->elem[i] = calloc(STRING_SIZE,sizeof(char));
             strcpy(queue->elem[i],tmp[i]);
         }
-        for ( int i = queue->lastIndex; i < queue->size; i++) {
+        for ( int i = queue->lastIndex+1; i < queue->size; i++) {
+            queue->elem[i] = calloc(STRING_SIZE,sizeof(char));
+        }
+    } else if (queue->lastIndex < queue->size/2) {
+        char** tmp = copyElements(*queue);
+        queue->size/=2;
+        queue->elem = calloc(queue->size,sizeof(char*));
+        for (int i = 0; i <= queue->lastIndex; i++) {
+            queue->elem[i] = calloc(STRING_SIZE,sizeof(char));
+            strcpy(queue->elem[i],tmp[i]);
+        }
+        for ( int i = queue->lastIndex+1; i < queue->size; i++) {
             queue->elem[i] = calloc(STRING_SIZE,sizeof(char));
         }
     }
