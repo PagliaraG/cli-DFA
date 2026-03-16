@@ -40,11 +40,13 @@ void addInQueue(char_queue_t* queue,char* el) {
 }
 
 char* poll(char_queue_t* queue) {
-    char* output = queue->elem[0];
+    char* output = calloc(STRING_SIZE,sizeof(char));
+    strcpy(output,queue->elem[0]);
     for (int i = 0; i < queue->lastIndex; i++) {
         strcpy(queue->elem[i],queue->elem[i+1]);
     }
-    queue->size-=1;
+    free(queue->elem[queue->lastIndex]);
+    queue->lastIndex--;
     return output;
 }
 
