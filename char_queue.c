@@ -35,12 +35,8 @@ bool isQueueEmpty(char_queue_t* queue) {
 }
 
 void addInQueue(char_queue_t* queue,char* el) {
-    bool firstElem = false;
-    if (isQueueEmpty(queue))
-        firstElem = true;
     strcpy(queue->elem[queue->lastIndex],el);
-    if (!firstElem)
-        queue->lastIndex++;
+    queue->lastIndex++;
 }
 
 char* poll(char_queue_t* queue) {
@@ -89,9 +85,9 @@ void resizeQueue(char_queue_t* queue) {
 void printQueue(char_queue_t queue) {
     printf("[ ");
     for (int i = 0; i <= queue.lastIndex; i++) {
-        printf("%s%s",queue.elem[i],(i < queue.lastIndex) ? ", " : " ");
+        printf("%s%s",queue.elem[i],(i < queue.lastIndex - 1) ? ", " : "");
     }
-    printf("] \n");
+    printf(" ] \n");
 }
 
 

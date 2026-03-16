@@ -1,8 +1,28 @@
-//
-// Created by razumichin on 16/03/26.
-//
+#ifndef CHAR_QUEUE_H
+#define CHAR_QUEUE_H
 
-#ifndef CLI_DFA_CHAR_QUEUE_H
-#define CLI_DFA_CHAR_QUEUE_H
+#define INITIAL_SIZE 4
+#define STRING_SIZE 255
 
-#endif //CLI_DFA_CHAR_QUEUE_H
+typedef struct {
+    char** elem;
+    int lastIndex;
+    int size;
+} char_queue_t;
+
+char_queue_t createQueue();
+
+void addInQueue(char_queue_t* queue,char* el);
+
+char* poll(char_queue_t* queue);
+
+char* peek(char_queue_t* queue);
+
+void resizeQueue(char_queue_t* queue);
+
+void printQueue(char_queue_t queue);
+
+
+
+
+#endif //CHAR_QUEUE_H
