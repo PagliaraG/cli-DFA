@@ -6,23 +6,20 @@
 
 typedef struct {
     char** elem;
-    int lastIndex;
+    int last_index;
     int size;
 } char_queue_t;
 
-char_queue_t createQueue();
+char_queue_t create_queue();
 
-void addInQueue(char_queue_t* queue,char* el);
+bool is_queue_empty(char_queue_t* queue);
+
+void add_in_queue(char_queue_t* queue,char* el);
 
 char* poll(char_queue_t* queue);
 
 char* peek(char_queue_t* queue);
 
-void resizeQueue(char_queue_t* queue);
-
-void printQueue(char_queue_t queue);
-
-
-
+void print_queue(char_queue_t queue);
 
 #endif //CHAR_QUEUE_H
