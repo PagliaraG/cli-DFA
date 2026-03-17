@@ -14,7 +14,7 @@ typedef struct{
     unsigned int size;
 } set_t;
 
-set_t createSet(){
+set_t create_set(){
     set_t set;
     set.el = calloc(INITIAL_SIZE,sizeof(char*));
     for(int i = 0; i < INITIAL_SIZE;i++){
@@ -25,13 +25,13 @@ set_t createSet(){
     return set;
 }
 
-int getLength(set_t* set){
+int get_length(set_t* set){
     return set->size;
 }
 
-int getLastIndex(set_t* set) {
+int get_last_index(set_t* set) {
     int i = 0;
-    while ( i < getLength(set) - 1) {
+    while ( i < get_length(set) - 1) {
         if (strcmp(set->el[i],"") == 0) {
             break;
         }
@@ -40,8 +40,8 @@ int getLastIndex(set_t* set) {
     return i;
 }
 
-bool isEmpty(set_t* set){
-    for(int i = 0; i < getLength(set) ; i++){
+bool is_empty(set_t* set){
+    for(int i = 0; i < get_length(set) ; i++){
         if(strcmp(set->el[i],"") != 0){
             return true;
         }
@@ -49,7 +49,7 @@ bool isEmpty(set_t* set){
     return false;
 }
 
-char** copyElements(set_t* set, int lastIndex) {
+char** copy_set_elements(set_t* set, int lastIndex) {
     char** output = calloc(lastIndex+1,sizeof(char*));
     for (int i = 0; i <= lastIndex; i++) {
         output[i] = calloc(STRING_SIZE,sizeof(char));
@@ -59,23 +59,23 @@ char** copyElements(set_t* set, int lastIndex) {
 }
 
 
-void resizeSet(set_t* set){
-    int length = getLength(set);
-    int lastIndex = getLastIndex(set);
-    if(lastIndex == length - 1 ){
-        char** tmp = copyElements(set,lastIndex);
+static void resize_set(set_t* set){
+    int length = get_length(set);
+    int last_index = get_last_index(set);
+    if(last_index == length - 1 ){
+        char** tmp = copy_set_elements(set,last_index);
         free(set->el);
         set->el = calloc(set->size*2,sizeof(char*));
-        for (int i = 0; i <= lastIndex; i++) {
+        for (int i = 0; i <= last_index; i++) {
             set->el[i] = calloc(STRING_SIZE,sizeof(char));
             strcpy(set->el[i],tmp[i]);
         }
         free(tmp);
-        for (int i = lastIndex+1 ; i < length*2 ; i++) {
+        for (int i = last_index+1 ; i < length*2 ; i++) {
             set->el[i] = calloc(STRING_SIZE,sizeof(char));
         }
         set->size*=2;
-    }else if(lastIndex < length/2 && length > 2){
+    }else if(last_index < length/2 && length > 2){
         for (int i = length/2 ; i < length ; i++) {
             free(set->el[i]);
         }
@@ -84,7 +84,7 @@ void resizeSet(set_t* set){
  }
 
 bool contains(set_t* set, char* el){
-    for(int i = 0; i < getLength(set) ; i++){
+    for(int i = 0; i < get_length(set) ; i++){
         if(strcmp(set->el[i],el) == 0){
             return true;         
         } 
@@ -92,10 +92,10 @@ bool contains(set_t* set, char* el){
     return false;
 }
 
-void addElem(set_t* set, elem el){
+void add_in_set(set_t* set, elem el){
     if(!contains(set,el)){
-        resizeSet(set);
-        for(int i = 0; i < getLength(set); i++){
+        resize_set(set);
+        for(int i = 0; i < get_length(set); i++){
             if(strcmp(set->el[i],"") == 0){
                 strcpy(set->el[i],el);
                 break;
@@ -104,9 +104,9 @@ void addElem(set_t* set, elem el){
     }
 }
 
-void removeElem(set_t* set, elem el){
+void remove_from_set(set_t* set, elem el){
     if(contains(set,el)){
-        int length = getLength((set));
+        int length = get_length((set));
         int index = 0;
         for( int i = 0; i < length; i++){
             if(strcmp(set->el[i],el) == 0){
@@ -121,16 +121,16 @@ void removeElem(set_t* set, elem el){
             }
         }
         set->size--;
-        resizeSet(set);
+        resize_set(set);
     }
 }
 
-void printSet(set_t set){
-    int lastIndex = getLastIndex(&set);
+void print_set(set_t set){
+    int last_index = get_last_index(&set);
     printf("[ ");
-    for( int i = 0; i < lastIndex; i++){
+    for( int i = 0; i < last_index; i++){
         if (strcmp(set.el[i],"") == 0) break;
-        printf("%s%s",set.el[i],(i < lastIndex-1) ? ", " : "");
+        printf("%s%s",set.el[i],(i < last_index-1) ? ", " : "");
     }
     printf(" ]\n");
 }

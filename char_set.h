@@ -10,24 +10,18 @@ typedef struct{
     unsigned int size;
 } set_t;
 
-set_t createSet();
+set_t create_set();
 
-int getLength(set_t* set);
+int get_length(set_t* set);
 
-bool isEmpty(set_t set);
-
-set_t resizeSet(set_t oldSet);
+bool is_empty(set_t set);
 
 bool contains(set_t set, char* el);
 
-void addElem(set_t* set, elem el);
+void add_in_set(set_t* set, elem el);
 
-void removeElem(set_t* set, elem el);
+void remove_from_set(set_t* set, elem el);
 
-void printSet(set_t set);
-
-char* getFirst(set_t set);
-
-char* getNext(set_t set);
+void print_set(set_t set);
 
 #endif //CHAR_SET_H
