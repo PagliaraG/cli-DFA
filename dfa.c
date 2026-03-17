@@ -37,25 +37,25 @@ dfa_t createDFA() {
 }
 
 void addState(dfa_t* dfa,state newState){
-    if (!contains(dfa->states,newState)){
+    if (!contains(&dfa->states,newState)){
         add_in_set(&dfa->states,newState);
     }
 }
 
 void removeState(dfa_t* dfa,state newState){
-    if (contains(dfa->states,newState)){
+    if (contains(&dfa->states,newState)){
         remove_from_set(&dfa->states,newState);
     }
 }
 
 void addSymbol(dfa_t* dfa,char* symbol){
-    if (!contains(dfa->alphabet,symbol)){
+    if (!contains(&dfa->alphabet,symbol)){
         add_in_set(&dfa->alphabet,symbol);
     }
 }
 
 void removeSymbol(dfa_t* dfa,char* symbol){
-    if (contains(dfa->alphabet,symbol)){
+    if (contains(&dfa->alphabet,symbol)){
         remove_from_set(&dfa->alphabet,symbol);
     }
 }
@@ -65,13 +65,13 @@ void setInitialState(dfa_t* dfa,char* initState) {
 }
 
 void addFinalState(dfa_t* dfa,state newState){
-    if (!contains(dfa->final_states,newState)){
+    if (!contains(&dfa->final_states,newState)){
         add_in_set(&dfa->final_states,newState);
     }
 }
 
 void removeFinalState(dfa_t* dfa,state newState){
-    if (contains(dfa->final_states,newState)){
+    if (contains(&dfa->final_states,newState)){
         remove_from_set(&dfa->final_states,newState);
     }
 }

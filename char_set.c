@@ -1,18 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "char_set.h"
 
 #define INITIAL_SIZE 2
 #define STRING_SIZE 255
-
-typedef char* elem;
-typedef unsigned int pointer;
-
-typedef struct{
-    char** el;
-    pointer ptr;
-    unsigned int size;
-} set_t;
 
 set_t create_set(){
     set_t set;

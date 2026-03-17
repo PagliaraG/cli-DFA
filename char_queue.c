@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include "char_queue.h"
 
-
 #define INITIAL_SIZE 4
 #define STRING_SIZE 255
 

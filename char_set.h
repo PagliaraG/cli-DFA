@@ -14,9 +14,9 @@ set_t create_set();
 
 int get_length(set_t* set);
 
-bool is_empty(set_t set);
+bool is_empty(set_t* set);
 
-bool contains(set_t set, char* el);
+bool contains(set_t* set, char* el);
 
 void add_in_set(set_t* set, elem el);
 
