@@ -21,58 +21,58 @@ typedef struct {
 typedef struct{
     set_t alphabet;
     set_t states;
-    state initialState;
-    set_t finalStates;
+    state initial_state;
+    set_t final_states;
     transition_t transitions[TRANSITION_SIZE];
 } dfa_t;
 
 dfa_t createDFA() {
     dfa_t dfa = {
-        .alphabet = createSet(),
-        .states = createSet(),
-        .finalStates = createSet(),
-        .initialState = "",
+        .alphabet = create_set(),
+        .states = create_set(),
+        .final_states = create_set(),
+        .initial_state = "",
     };
     return dfa;
 }
 
 void addState(dfa_t* dfa,state newState){
     if (!contains(dfa->states,newState)){
-        addElem(&dfa->states,newState);
+        add_in_set(&dfa->states,newState);
     }
 }
 
 void removeState(dfa_t* dfa,state newState){
     if (contains(dfa->states,newState)){
-        removeElem(&dfa->states,newState);
+        remove_from_set(&dfa->states,newState);
     }
 }
 
 void addSymbol(dfa_t* dfa,char* symbol){
     if (!contains(dfa->alphabet,symbol)){
-        addElem(&dfa->alphabet,symbol);
+        add_in_set(&dfa->alphabet,symbol);
     }
 }
 
 void removeSymbol(dfa_t* dfa,char* symbol){
     if (contains(dfa->alphabet,symbol)){
-        removeElem(&dfa->alphabet,symbol);
+        remove_from_set(&dfa->alphabet,symbol);
     }
 }
 
 void setInitialState(dfa_t* dfa,char* initState) {
-    strcpy(dfa->initialState,initState);
+    strcpy(dfa->initial_state,initState);
 }
 
 void addFinalState(dfa_t* dfa,state newState){
-    if (!contains(dfa->finalStates,newState)){
-        addElem(&dfa->finalStates,newState);
+    if (!contains(dfa->final_states,newState)){
+        add_in_set(&dfa->final_states,newState);
     }
 }
 
 void removeFinalState(dfa_t* dfa,state newState){
-    if (contains(dfa->finalStates,newState)){
-        removeElem(&dfa->finalStates,newState);
+    if (contains(dfa->final_states,newState)){
+        remove_from_set(&dfa->final_states,newState);
     }
 }
 
