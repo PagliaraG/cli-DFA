@@ -15,7 +15,6 @@ typedef struct {
     state init;
     state final;
     symbol symbol;
-
 } transition_t;
 
 typedef struct{
@@ -74,6 +73,10 @@ void removeFinalState(dfa_t* dfa,state newState){
     if (contains(&dfa->final_states,newState)){
         remove_from_set(&dfa->final_states,newState);
     }
+}
+
+void addTransition(dfa_t* dfa,state start,state end) {
+
 }
 
 int main(void){
